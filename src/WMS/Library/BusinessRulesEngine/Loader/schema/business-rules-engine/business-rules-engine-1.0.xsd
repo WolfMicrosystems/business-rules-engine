@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://wolfmicrosystems.com/schema/business-rules-engine"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://wolfmicrosystems.com/schema/business-rules-engine"
+            elementFormDefault="qualified">
+
+    <xsd:annotation>
+        <xsd:documentation><![CDATA[
+      WMS Business Rules Engine Schema, version 1.0
+      Authors: Andrew Moore
+
+      This scheme defines the elements and attributes that can be used to define
+      business rules. A rule is an expression which can be applied to a specific
+      set of variables.
+    ]]></xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:element name="rules" type="rules"/>
+
+    <xsd:complexType name="rules">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="import" type="import"/>
+            <xsd:element name="rule" type="rule"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:complexType name="tag">
+        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:anyAttribute namespace="##any" processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:group name="configs">
+        <xsd:choice>
+            <xsd:element name="tag" type="tag" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:choice>
+    </xsd:group>
+
+    <xsd:complexType name="rule">
+        <xsd:group ref="configs" minOccurs="0" maxOccurs="unbounded"/>
+
+        <xsd:attribute name="id" type="xsd:string" use="required" />
+        <xsd:attribute name="expression" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="import">
+        <xsd:group ref="configs" minOccurs="0" maxOccurs="unbounded"/>
+
+        <xsd:attribute name="resource" type="xsd:string" use="required"/>
+        <xsd:attribute name="type" type="xsd:string"/>
+    </xsd:complexType>
+</xsd:schema>
